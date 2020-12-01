@@ -1,0 +1,82 @@
+﻿@using ToDoList.Models
+
+@{
+    ViewBag.Title = "Addworklist";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var danhsachEmployee = (List<Employee>)ViewData["dsEmployee"]; // Cast the list
+
+}
+<div id="" style=" " class="css_cont_menu">
+    <div>
+        <div class="css_menu_tutao">
+            <a href="#" class="">
+                Danh sách nhân viên
+            </a>
+        </div>
+        <div class="css_menu_tutao">
+
+
+        </div>
+        @*@foreach (var item in Model.getAllEmployee())
+            {
+                <div class="css_menu_tutao">
+                    <a href="/employee?id=@item.Id" style="width:100%;height:100%">@item.FullName</a>
+                </div>
+            }*@
+        @foreach (var item in danhsachEmployee)
+        {
+            if (item.FullName == Session["FullName"].ToString())
+            {
+                continue;
+            }
+            <div class="css_menu_tutao">
+                <a href="/employee/Id/@item.Id" style="width:100%;height:100%">@item.FullName</a>
+                @*@Html.DisplayFor(modelItem => item.DateCreated)*@
+            </div>
+        }
+    </div>
+</div>
+<div id="css_xemlist" class="css_xemlist" style=" margin-top:10px; width: 250px; height: 30px; background: #ded5f5; text-align: center; padding-top: 5px; border-radius: 15px; color: black;">
+    <a href="/employee/Id">Xem danh sách của bạn </a>
+</div>
+<div class="css_back" style="display: grid;">
+    <a href="/employee/Id"> Trở lại </a>
+</div>
+<div style="display: inline-block; font-size: x-large;color:brown">
+    <form method="post">
+    @Html.AntiForgeryToken()
+    <div>
+        <div>
+            <div>
+
+                <div>
+                    <div>
+
+                        <div class="group">
+                            <label style="color: #f84242;" for="WorkListName" class="label">Tên danh sách</label>
+                            <input id="Add_WorkListName" type="text" class="input" placeholder="Tên danh sách" name="Add_WorkListName">
+                        </div>
+                        <div class="group">
+                            <div style="display: initial;"><label style="color: #f84242;" for="WorkListStatus" class="label">Trạng thái</label></div>
+                            <div style="display: inline;">
+                                <select id="Add_WorkListStatus" name="Add_WorkListStatus">
+                                    <option value="1">Public</option>
+                                    <option value="2">Private</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="group">
+                            <label><input type="hidden" id="add_id_employee" name="add_id_employee" value="@Session["IdUser"].ToString()" /></label>
+                            <input type="submit" name="Add_WorkList" id="Add_WorkList" class="css_btn" value="Thêm danh sách">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>
+</div>
+

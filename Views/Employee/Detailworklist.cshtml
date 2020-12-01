@@ -1,0 +1,293 @@
+﻿@using ToDoList.Models
+@{
+    ViewBag.Title = "Detailworklist";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var danhsachEmployee = (List<Employee>)ViewData["dsEmployee"]; // Cast the list
+    var canlam = (List<Work>)ViewData["canlam"]; // Cast the list
+    var danglam = (List<Work>)ViewData["danglam"]; // Cast the list
+    var hoanthanh = (List<Work>)ViewData["hoanthanh"]; // Cast the list
+    var trehan = (List<Work>)ViewData["trehan"]; // Cast the list
+    var inWorklist = (List<Employee>)ViewData["inWorkList"]; // Cast the list
+    var notInWorklist = (List<Employee>)ViewData["notInWorkList"]; // Cast the list
+    var nguoilamchung = (List<Employee>)ViewData["nguoilamchung"];
+    var idWorklist = ViewData["idWorklist"];
+    int i = 0;
+}
+@*Hiển thị các nhân viên chưa có trong danh sách*@
+
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <table style="border:1px solid black;width:80%;text-align:center">
+        <tr style="border:1px solid black">
+            <th style="text-align:center; border:1px solid black;width:80%">Tên Nhân Viên</th>
+            <th style="text-align:center; border:1px solid black;width:20%">Chọn</th>
+        </tr>
+        @foreach (var item1 in notInWorklist)
+        {
+            <tr style="border:1px solid black">
+                <td style="text-align:center; border:1px solid black;width:80%">@item1.FullName</td>
+                <td style="text-align:center; border:1px solid black;width:20%">
+                    <div>
+                        <form method="post" action="/employee/ThemNguoiLamChung_worklist">
+                            @Html.AntiForgeryToken()
+
+                            <input type="hidden" id="id_add_1_employee" name="id_add_1_employee" value="@item1.Id" />
+                            <input type="hidden" id="id_add_1_worklist" name="id_add_1_worklist" value="@idWorklist" />
+                            <input class="css_btn" type="submit" id="submit_add_1_employee" name="submit_add_1_employee" value="Thêm" />
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+@*Hiển thị danh sách nhân viên có tham gia trong danh sách*@
+<div id="mySidenavWorkListEmployee" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNavWorkListEmployee()">&times;</a>
+    <table style="border:1px solid black;width:80%;text-align:center">
+        <tr style="border:1px solid black">
+            <th style="text-align:center; border:1px solid black;width:80%">Tên nhân viên</th>
+            <th style="text-align:center; border:1px solid black;width:20%"></th>
+        </tr>
+        @foreach (var item1 in inWorklist)
+        {
+            <tr style="border:1px solid black">
+                <td style="text-align:center; border:1px solid black;width:80%">@item1.FullName</td>
+                <td style="text-align:center; border:1px solid black;width:20%">
+                    <div>
+                        <form method="post" action="/employee/XoaNguoiLamChung_worklist">
+                            @Html.AntiForgeryToken()
+
+                            <input type="hidden" id="id_delete_1_employee" name="id_delete_1_employee" value="@item1.Id" />
+                            <input type="hidden" id="id_delete_1_worklist" name="id_delete_1_worklist" value="@idWorklist" />
+                            <input class="css_btn" type="submit" id="submit_delete_1_employee" name="submit_delete_1_employee" value="Xóa" />
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+<div id="" style=" " class="css_cont_menu">
+    <div>
+        <div class="css_menu_tutao">
+            <a href="#" class="">
+                Danh sách nhân viên
+            </a>
+        </div>
+        <div class="css_menu_tutao">
+
+
+        </div>
+        @*@foreach (var item in Model.getAllEmployee())
+            {
+                <div class="css_menu_tutao">
+                    <a href="/employee?id=@item.Id" style="width:100%;height:100%">@item.FullName</a>
+                </div>
+            }*@
+        @foreach (var item in danhsachEmployee)
+        {
+            if (item.FullName == Session["FullName"].ToString())
+            {
+                continue;
+            }
+            <div class="css_menu_tutao">
+                <a href="/employee/Id/@item.Id" style="width:100%;height:100%">@item.FullName</a>
+                @*@Html.DisplayFor(modelItem => item.DateCreated)*@
+            </div>
+        }
+    </div>
+</div>
+<div id="css_xemlist" class="css_xemlist" style=" margin-top:10px; width: 250px; height: 30px; background: #ded5f5; text-align: center; padding-top: 5px; border-radius: 15px; color: black;">
+    <a href="/employee/Id">Xem danh sách của bạn </a>
+</div>
+<div class="css_back" style="display: flex;">
+    <a href="/employee/Id/@Session["Id"].ToString()"> Trở lại </a>
+</div>
+<div style="margin-top:5px">
+    <div style="" class="css_addwork">
+        <a href="/employee/Addwork/@idWorklist">Thêm công việc</a>
+    </div>
+
+    <div style=" width:200px" class="css_addemployee">
+        <button onclick="openNav()">Thêm người làm chung</button>
+    </div>
+    <div style="" class="css_viewemployee">
+
+        <button onclick="openNavWorkListEmployee()">Xóa người làm chung</button>
+
+    </div>
+</div>
+@*Hiển thị các công việc của 1 danh sách*@
+<div style="clear:both;width: 75%;display: inline-table;padding-top: 20px;">
+    <h3>Danh sách công việc</h3>
+    <div>
+        <div style="height:auto">
+            <div style="float: left; width: 47%; height: auto">
+                <div>
+                    Cần làm:
+                </div>
+                @foreach (var item in canlam)
+                {
+                    DateTime day1 = DateTime.Parse("" + item.StartDate);
+                    string dayOfWeek1 = day1.DayOfWeek + "";
+                    DateTime day2 = DateTime.Parse("" + item.EndDate);
+                    string dayOfWeek2 = day2.DayOfWeek + "";
+
+                    <div style="" class="css_workinworklist">
+                        <div style="width:100%">
+                            <a href="/employee/work/@item.Id">
+                                <div style="width:100%;height:300px;">
+                                    <div>Tên công việc : @item.WorkName</div>
+                                    <div>Ngày bắt đầu : @item.StartDate &#40; @dayOfWeek1 &#41;</div>
+                                    <div>Ngày kết thúc:@item.EndDate &#40; @dayOfWeek2 &#41;</div>
+                                    <div>Ngày tạo : @item.DateCreated</div>
+
+                                    <div>Danh sách người làm chung:</div>
+                                    <div>
+                                        @foreach (var it in item.nguoilamchung)
+                                        {
+                                            <div style="float:left; margin-left:10px">
+                                                @it.FullName
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+
+                    </div>
+
+
+                }
+
+            </div>
+            <div style="float: right; width: 47%; height: auto">
+                <div>
+                    Đang làm:
+                </div>
+                @foreach (var item in danglam)
+                {
+                    DateTime day1 = DateTime.Parse("" + item.StartDate);
+                    string dayOfWeek1 = day1.DayOfWeek + "";
+                    DateTime day2 = DateTime.Parse("" + item.EndDate);
+                    string dayOfWeek2 = day2.DayOfWeek + "";
+
+                    <div style="" class="css_workinworklist">
+                        <div style="width:100%">
+                            <a href="/employee/work/@item.Id">
+                                <div style="width:100%;height:300px;">
+                                    <div>Tên công việc : @item.WorkName</div>
+                                    <div>Ngày bắt đầu : @item.StartDate &#40; @dayOfWeek1 &#41;</div>
+                                    <div>Ngày kết thúc:@item.EndDate &#40; @dayOfWeek2 &#41;</div>
+                                    <div>Ngày tạo : @item.DateCreated</div>
+
+                                    <div>Danh sách người làm chung:</div>
+                                    <div>
+                                        @foreach (var it in item.nguoilamchung)
+                                        {
+                                            <div style="float:left; margin-left:10px">
+                                                @it.FullName
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+
+                }
+
+            </div>
+        </div>
+        <div style="height:auto; clear:both">
+            <div style="float: left; width: 47%; height: auto">
+                <div>
+                    Đã làm:
+                </div>
+                @foreach (var item in hoanthanh)
+                {
+                    DateTime day1 = DateTime.Parse("" + item.StartDate);
+                    string dayOfWeek1 = day1.DayOfWeek + "";
+                    DateTime day2 = DateTime.Parse("" + item.EndDate);
+                    string dayOfWeek2 = day2.DayOfWeek + "";
+
+                    <div style="" class="css_workinworklist">
+                        <div style="width:100%">
+                            <a href="/employee/work/@item.Id">
+                                <div style="width:100%;height:300px;">
+                                    <div>Tên công việc : @item.WorkName</div>
+                                    <div>Ngày bắt đầu : @item.StartDate &#40; @dayOfWeek1 &#41;</div>
+                                    <div>Ngày kết thúc:@item.EndDate &#40; @dayOfWeek2 &#41;</div>
+                                    <div>Ngày tạo : @item.DateCreated</div>
+
+                                    <div>Danh sách người làm chung:</div>
+                                    <div>
+                                        @foreach (var it in item.nguoilamchung)
+                                        {
+                                            <div style="float:left; margin-left:10px">
+                                                @it.FullName
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+
+                    </div>
+
+                }
+            </div>
+            <div style="float: right; width: 47%; height: auto;">
+                <div style="color:red">
+                    Trễ hạn:
+                </div>
+                @foreach (var item in trehan)
+                {
+                    DateTime day1 = DateTime.Parse("" + item.StartDate);
+                    string dayOfWeek1 = day1.DayOfWeek + "";
+                    DateTime day2 = DateTime.Parse("" + item.EndDate);
+                    string dayOfWeek2 = day2.DayOfWeek + "";
+
+                    <div style="" class="css_workinworklist">
+                        <div style="width:100%">
+                            <a href="/employee/work/@item.Id">
+                                <div style="width:100%;height:300px;">
+                                    <div>Tên công việc : @item.WorkName</div>
+                                    <div>Ngày bắt đầu : @item.StartDate &#40; @dayOfWeek1 &#41;</div>
+                                    <div>Ngày kết thúc:@item.EndDate &#40; @dayOfWeek2 &#41;</div>
+                                    <div>Ngày tạo : @item.DateCreated</div>
+
+                                    <div>Danh sách người làm chung:</div>
+                                    <div>
+                                        @foreach (var it in item.nguoilamchung)
+                                        {
+                                            <div style="float:left; margin-left:10px">
+                                                @it.FullName
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+
+                    </div>
+
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

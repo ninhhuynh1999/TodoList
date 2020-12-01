@@ -1,0 +1,125 @@
+﻿@using ToDoList.Controllers.DTO
+@model ToDoList.Controllers.DTO.EmployeeDTO
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="/Content/css/custom.css" rel="stylesheet">
+    <link href="~/Content/css/Login_css.css" rel="stylesheet">
+
+</head>
+<body>
+
+
+    <div class="login-wrap">
+        <div class="login-html">
+            <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign In</label>
+            <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label>
+            <div class="login-form">
+                
+                    @using (Html.BeginForm("Login", "Login", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="sign-in-htm">
+                            <div class="group">
+                                <label class="field-validation-error alert-danger">@Html.DisplayFor(model => model.LoginErrorMessage)</label>
+                                <label for="user" class="label">Username</label>
+                                @Html.EditorFor(model => model.Email)
+                                @Html.ValidationMessageFor(model => model.Email,"", new { @style = "color:red;!important"  })
+                                @*<input id="login_username" type="text" name="Email" class="input">*@
+                            </div>
+                            <div class="group">
+                                <label for="pass" class="label">Password</label>
+                                @Html.EditorFor(model => model.Password)
+                                @Html.ValidationMessageFor(model => model.Password,"", new { @style = "color:red;!important" })
+
+                                @*<input id="login_password" name="Password" type="password" class="input" data-type="password">*@
+                            </div>
+                            <div class="group">
+                                <input id="check" type="checkbox" class="check"  style="display:none" checked>
+                                <label for="check"><span class="icon"></span> Keep me Signed in</label>
+                            </div>
+                            <div class="group">
+                                <input type="submit" class="button submit" value="login" name="submit">
+                            </div>
+                            <div class="hr"></div>
+                            <div class="foot-lnk">
+                                <a href="#forgot">Forgot Password?</a>
+                            </div>
+                        </div>
+                    }
+                
+                
+                    @using (Html.BeginForm("Signup", "Login", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="sign-up-htm">
+
+                        <div class="group">
+                            <label for="user" class="label">FullName</label>
+                            <input id="registration_fullname" type="text" class="input" name="FullName">
+                        </div>
+                        <div class="group">
+                            <label for="pass" class="label">Password</label>
+                            <input id="registration_password" type="password" class="input" data-type="password" name="Password">
+                        </div>
+                        <div class="group">
+                            <label for="pass" class="label">Repeat Password</label>
+                            <input id="registration_passwordRepeat" type="password" class="input" data-type="password" name="Password2">
+                        </div>
+                        <div class="group">
+                            <label for="email" class="label">Email Address</label>
+                            <input id="registration_email" name="Email" type="text" class="input">
+                        </div>
+                        <div class="group">
+                            <input type="submit" name="registration_submit" id="registration_submit" class="button" value="Sign Up">
+                        </div>
+                        <div class="hr">
+
+                        </div>
+                        <div class="foot-lnk">
+                            <label for="tab-1"><a>Already Member?</a></label>
+                        </div>
+
+                    </div>
+                    }
+            </div>
+        </div>
+    </div>
+
+
+
+
+    @if (Session["loginFail"] != null)
+    {
+
+        <script type="text/javascript">
+                alert("@Session["loginFail"].ToString()");
+        </script>
+    }
+    @if (Session["signupMess"] != null)
+    {
+
+        <script type="text/javascript">
+
+            alert("@Session["signupMess"].ToString()");
+            
+
+        </script>
+
+    }
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $(":input").addClass("input");
+    </script>
+</body>
+
+</html>

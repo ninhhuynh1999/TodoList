@@ -1,0 +1,47 @@
+﻿.css_menu_tutao {
+    font-family: Mali;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 62px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    font-feature-settings: 'tnum' on, 'lnum' on;
+    color: #000;
+}
+
+.css_cont_menu {
+    float: left;
+    overflow-y: scroll;
+    width: 200px;
+    height: 400px;
+}
+
+    .css_cont_menu::-webkit-scrollbar {
+        display: none;
+    }
+
+.css_cont_menu {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+#btn-logout {
+    background-color:oldlace;
+    float: right;
+    font-size: large;
+    color: orangered;
+}
+    #btn-logout:hover {
+        background-color: moccasin;
+        color: orange;
+    }
+#thongtin {
+    background-color: white;
+    float: right;
+    font-size: large;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    color: orangered;
+}

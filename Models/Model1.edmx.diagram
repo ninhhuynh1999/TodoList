@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e4d5a840bd7a4d8cbbbada16b1983994" Name="Diagram1" ZoomLevel="47">
+        <EntityTypeShape EntityType="TodoListDBModel.Comment" Width="1.5" PointX="7.5" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TodoListDBModel.Employee" Width="1.5" PointX="5.25" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TodoListDBModel.Role" Width="1.5" PointX="3" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TodoListDBModel.sysdiagram" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TodoListDBModel.Work" Width="1.5" PointX="5.25" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TodoListDBModel.Work_Employee" Width="1.5" PointX="7.5" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TodoListDBModel.WorkList" Width="1.5" PointX="3" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TodoListDBModel.WorkList_Employee" Width="1.5" PointX="8.25" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TodoListDBModel.WorkListStatu" Width="1.5" PointX="0.75" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TodoListDBModel.WorkStatu" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
+        <AssociationConnector Association="TodoListDBModel.Comment_Employee" ManuallyRouted="false" />
+        <AssociationConnector Association="TodoListDBModel.Comment_Work" ManuallyRouted="false" />
+        <AssociationConnector Association="TodoListDBModel.User_Role" ManuallyRouted="false" />
+        <AssociationConnector Association="TodoListDBModel.WorkEmployee_Employee" ManuallyRouted="false" />
+        <AssociationConnector Association="TodoListDBModel.WorkListEmployee_Employee" ManuallyRouted="false" />
+        <AssociationConnector Association="TodoListDBModel.Work_WorkList" ManuallyRouted="false" />
+        <AssociationConnector Association="TodoListDBModel.Work_WorkStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="TodoListDBModel.WorkEmployee_Work" ManuallyRouted="false" />
+        <AssociationConnector Association="TodoListDBModel.WorkList_WorkListStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="TodoListDBModel.WorkListEmployee_WorkList" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
