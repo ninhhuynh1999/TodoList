@@ -45,3 +45,9 @@
     padding-bottom: 15px;
     color: orangered;
 }
+.addWork-label {
+    color: #5d1818;
+    font-size: 1em;
+    padding: 0;
+    line-height: 2;
+}

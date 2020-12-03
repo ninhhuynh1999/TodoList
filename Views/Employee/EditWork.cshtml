@@ -1,0 +1,95 @@
+﻿@using ToDoList.Controllers.DTO
+@model ToDoList.Controllers.DTO.WorkDTO
+@{
+    ViewBag.Title = "EditWork";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var danhsachEmployee = (List<EmployeeDTO>)ViewData["dsEmployee"]; // Cast the list
+
+}
+
+<div id="" style=" " class="css_cont_menu">
+    <div>
+        <div class="css_menu_tutao">
+            <a href="#" class="">
+                Danh sách nhân viên
+            </a>
+        </div>
+        <div class="css_menu_tutao">
+
+
+        </div>
+        @*@foreach (var item in Model.getAllEmployee())
+            {
+                <div class="css_menu_tutao">
+                    <a href="/employee?id=@item.Id" style="width:100%;height:100%">@item.FullName</a>
+                </div>
+            }*@
+        @foreach (var item in danhsachEmployee)
+        {
+            if (item.FullName == Session["FullName"].ToString())
+            {
+                continue;
+            }
+            <div class="css_menu_tutao">
+                <a href="/employee/Id/@item.Id" style="width:100%;height:100%">@item.FullName</a>
+                @*@Html.DisplayFor(modelItem => item.DateCreated)*@
+            </div>
+        }
+    </div>
+</div>
+
+@using (Html.BeginForm("EditWork", "employee", FormMethod.Post))
+{<div class="css_back" style=" display: flex; margin-top: 35px; ">
+    <a href="/employee/Work/@Session["IdWork"].ToString()"> Trở lại </a>
+</div>
+    @Html.AntiForgeryToken()
+    <div>
+        @*public int? IdWorkList { get; set; }
+            public int? IdWorkStatus { get; set; }
+            public string WorkContent { get; set; }
+            public string WorkName { get; set; }
+            public DateTime? DateCreated { get; set; }
+            public DateTime? StartDate { get; set; }
+            public DateTime? EndDate { get; set; }*@
+        <div class="group">
+            <label for="WorkName" class="label label-defaul addWork-label ">Tên công việc</label>
+            @*<input id="Add_WorkName" placeholder="Nhập tên công việc..." type="text" class="input" name="Add_WorkName">*@
+            @Html.EditorFor(model => model.WorkName, new { htmlAttributes = new { @class = "input form-control", @placeholder = "Nhập tên công việc...", @Value = Model.WorkName } })
+            @Html.ValidationMessageFor(model => model.WorkName)
+        </div>
+        <div class="group">
+            <label for="WorkContent" class="label label-defaul addWork-label">Nội dung công việc</label>
+            @*  <input id="Add_WorkContent" placeholder="Nhập nội dung công việc..." type="text" class="input" name="Add_WorkContent">*@
+            @Html.EditorFor(model => model.WorkContent, new { htmlAttributes = new { @class = "input form-control", @placeholder = "Nhập nội dung công việc...", @Value = Model.WorkContent } })
+            @Html.ValidationMessageFor(model => model.WorkContent)
+        </div>
+        <div class="group">
+            <label for="WorkStartDate" class="label label-defaul addWork-label">Ngày bắt đầu</label>
+            @*   <input id="Add_WorkStartDate" type="date" class="input" value="@date" name="Add_WorkStartDate">*@
+            @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control datepicker", @Value = Model.StartDate.Value.ToString("yyyy-MM-dd") } })
+            @Html.ValidationMessageFor(model => model.StartDate)
+        </div>
+        <div class="group">
+            <label for="WorkEndDate" class="label label-defaul addWork-label">Ngày kết thúc</label>
+            @* <input id="Add_WorkEndDate" type="date" class="input" value="@date" name="Add_WorkEndDate">*@
+            @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control datepicker", @Value = Model.EndDate.Value.ToString("yyyy-MM-dd") } })
+            @Html.ValidationMessageFor(model => model.EndDate)
+        </div>
+
+        <div class="group">
+            @*<label><input type="hidden" id="addwork_id_worklist" name="addwork_id_worklist" value="@Session["WorkListId"].ToString()" /></label>*@
+            @Html.EditorFor(model => model.IdWorkList, new { @Value = Session["WorkListId"].ToString(), htmlAttributes = new { @class = "form-control", @style = "display: none", @Value = Session["WorkListId"].ToString() } })
+
+            @* <label><input type="hidden" id="addwork_id_employee" name="addwork_id_employee" value="@Session["Id"].ToString()" /></label>*@
+            @Html.EditorFor(model => model.IdEmployee, new { @Value = Session["Id"].ToString(), htmlAttributes = new { @class = "form-control", @style = "display: none", @Value = Session["Id"].ToString() } })
+            @Html.EditorFor(model => model.Id, new { @Value = Session["IdWork"].ToString(), htmlAttributes = new { @class = "form-control", @style = "display: none", @Value = Session["IdWork"].ToString() } })
+
+
+            <input type="submit" name="submit" id="Add_Work" class="css_btn button submit" value="Sửa công việc">
+        </div>
+    </div>
+}
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

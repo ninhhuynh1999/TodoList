@@ -45,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=10.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>packages\AutoMapper.10.1.1\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -129,20 +132,24 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DTO\CommentDTO.cs" />
+    <Compile Include="Controllers\DTO\CommentViewDTO.cs" />
     <Compile Include="Controllers\DTO\EmployeeDTO.cs" />
     <Compile Include="Controllers\DTO\LoginDTO.cs" />
     <Compile Include="Controllers\DTO\WorkDTO.cs" />
     <Compile Include="Controllers\DTO\WorkListDTO.cs" />
+    <Compile Include="Controllers\DTO\WorkStatusDTO.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\Mapping\MappingConfig.cs" />
+    <Compile Include="Controllers\Mapping\MappingProfile.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Comment.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DTO\Work.cs" />
+    <Compile Include="Models\Entities\Work.cs" />
     <Compile Include="Models\Employee.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -337,6 +344,9 @@
     <Content Include="Views\Employee\Addworklist.cshtml" />
     <Content Include="Views\Employee\EditWorklist.cshtml" />
     <Content Include="Views\Employee\Detailworklist.cshtml" />
+    <Content Include="Views\Employee\Work.cshtml" />
+    <Content Include="Views\Employee\AddWork.cshtml" />
+    <Content Include="Views\Employee\EditWork.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

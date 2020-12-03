@@ -1,0 +1,276 @@
+﻿@using ToDoList.Controllers.DTO
+
+
+@model ToDoList.Controllers.DTO.WorkDTO
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var danhsachEmployee = (List<EmployeeDTO>)ViewData["dsEmployee"]; // Cast the list
+    var dsBinhLuan = (List<CommentViewDTO>)ViewData["dsBinhLuan"]; // Cast the list
+    var dsNguoiLamChung = (List<EmployeeDTO>)ViewData["dsNguoiLamChung"]; // Cast the list
+    var dsNguoiKhongLamChung = (List<EmployeeDTO>)ViewData["dsNguoiKhongLamChung"]; // Cast the list
+
+    var dsTrangThai = (List<WorkStatusDTO>)ViewData["dsTrangThai"]; // Cast the listdsNguoiLamChung
+    WorkDTO congviec = Model;
+    List<string> cssTrangthai = new List<string> {"we", "css_btncanlam", "css_btndanglam", "css_btndalam", "css_btntrehan" };
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Work</title>
+</head>
+<body>
+    @*Hiển thị danh sách các nhân viên chưa tham gia công việc*@
+    <div id="mySidenavWork" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNavWork()">&times;</a>
+        <table style="border:1px solid black;width:80%;text-align:center">
+            <tr style="border:1px solid black">
+                <th style="text-align:center; border:1px solid black;width:80%">Tên nhân viên</th>
+                <th style="text-align:center; border:1px solid black;width:20%"></th>
+            </tr>
+            @foreach (var item1 in dsNguoiKhongLamChung)
+            {
+                <tr style="border:1px solid black">
+                    <td style="text-align:center; border:1px solid black;width:80%">@item1.FullName</td>
+                    <td style="text-align:center; border:1px solid black;width:20%">
+                        <div>
+                            <form method="post" action="/employee/ThemNguoiLamChung_Work">
+                                <input type="hidden" id="id_add_work_employee" name="id_add_work_employee" value="@item1.Id" />
+                                <input type="hidden" id="id_add_work" name="id_add_work" value="@Session["IdWork"].ToString()" />
+                                <input class="css_btn" type="submit" id="submit_add_work_employee" name="submit_add_work_employee" value="Thêm" />
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+    @*Hiển thị danh sách nhân viên đã tham gia công việc*@
+    <div id="mySidenavWorkEmployee" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNavWorkEmployee()">&times;</a>
+        <table style="border:1px solid black;width:80%;text-align:center">
+            <tr style="border:1px solid black">
+                <th style="text-align:center; border:1px solid black;width:80%">Tên nhân viên</th>
+                <th style="text-align:center; border:1px solid black;width:20%"></th>
+            </tr>
+            @foreach (var item1 in dsNguoiLamChung)
+            {
+                <tr style="border:1px solid black">
+                    <td style="text-align:center; border:1px solid black;width:80%">@item1.FullName</td>
+                    <td style="text-align:center; border:1px solid black;width:20%">
+                        <div>
+                            <form method="post" action="/employee/XoaNguoiLamChung_Work">
+                                <input type="hidden" id="id_delete_work_employee" name="id_delete_work_employee" value="@item1.Id" />
+                                <input type="hidden" id="id_delete_work" name="id_delete_work" value="@Session["IdWork"].ToString()" />
+                                <input class="css_btn" type="submit" id="submit_Delete_work_employee" name="submit_Delete_work_employee" value="Xóa" />
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+    <div id="" style=" " class="css_cont_menu">
+        <div>
+            <div class="css_menu_tutao">
+                <a href="#" class="">
+                    Danh sách nhân viên
+                </a>
+            </div>
+            <div class="css_menu_tutao">
+
+
+            </div>
+            @*@foreach (var item in Model.getAllEmployee())
+                {
+                    <div class="css_menu_tutao">
+                        <a href="/employee?id=@item.Id" style="width:100%;height:100%">@item.FullName</a>
+                    </div>
+                }*@
+            @foreach (var item in danhsachEmployee)
+            {
+                if (item.FullName == Session["FullName"].ToString())
+                {
+                    continue;
+                }
+                <div class="css_menu_tutao">
+                    <a href="/employee/Id/@item.Id" style="width:100%;height:100%">@item.FullName</a>
+                    @*@Html.DisplayFor(modelItem => item.DateCreated)*@
+                </div>
+            }
+        </div>
+    </div>
+    <div class="detailWork">
+        @*Hiển thị chi tiết công việc*@
+        <div class="css_back" style="display: flex; margin-top: 30px;"><a href="/employee/Detailworklist/@Session["WorkListId"]">Trở lại</a></div>
+        <div style="width:80%;float:left; margin-top:10px">
+            <div style="" class="css_deletework">
+                <form method="post" name="delete_congviec" action="/employee/XoaWork">
+                    <input type="hidden" id="id_delete_work" name="id_delete_work" value="@congviec.Id" />
+                    <input style="border:0px" type="submit" onclick=" return confirm('Bạn có thật sự muốn xóa công việc @congviec.WorkName không ?')" id="congviec_delete" name="congviec_delete" value="Xóa công việc" />
+                </form>
+            </div>
+            <div style="margin-left:10px" class="css_btneditworklist">
+                <a href="/employee/EditWork/@congviec.Id">Sửa</a>
+            </div>
+            <div style="width:200px" class="css_addemployee">
+
+                <button onclick="openNavWork()">Thêm người làm chung</button>
+
+            </div>
+            <div style="" class="css_viewemployee">
+
+                <button onclick="openNavWorkEmployee()">Xóa người làm chung</button>
+
+            </div>
+        </div>
+
+        <div style="display: inline-block;" class="css_workdetails">
+
+            <div style="margin-top:5px">
+                <div style="float:left;width:20%">Tên công việc :</div>
+                <div style="float:left">@congviec.WorkName</div>
+            </div>
+            <div style="margin-top:5px;clear:both">
+                <div style="float:left;width:20%">Nội dung công việc :</div>
+                <div style="float:left">@congviec.WorkContent</div>
+            </div>
+
+            <div style="margin-top: 5px; clear: both ">
+                <div style="float:left;width:20%;margin-top:5px">
+                    Trạng thái:
+                </div>
+                <div style="float:left;margin-top:5px">
+                    Cần làm
+                </div>
+                <div style="clear:both">
+                    <div style="float:left;margin-top:5px;width:20%">Thay đổi trạng thái:</div>
+                    <div style="float:left;margin-top:5px">
+                        @{
+                            foreach (var trangthai in dsTrangThai)
+                            {
+                                if (trangthai.Id == congviec.IdWorkStatus) { continue; }
+                                <div style="" class="@cssTrangthai[(int)trangthai.Id].ToString()">
+                                    <form method="post" action="/employee/EditStatusWork">
+                                        <input type="hidden" value="@trangthai.Id" id="editstatus_id" name="editstatus_id" />
+                                        <input type="hidden" value="@congviec.Id" id="editstatus_idwork" name="editstatus_idwork" />
+                                        <input style="border:0px" type="submit" value="@trangthai.WorkStatus" id="submit_editstatus" name="submit_editstatus" />
+                                    </form>
+                                </div>
+                            }
+                        }
+                        @* <div style="" class="css_btndanglam">
+                                <form method="post">
+                                    <input type="hidden" value="2" id="editstatus_id" name="editstatus_id" />
+                                    <input type="hidden" value="@congviec.Id" id="editstatus_idwork" name="editstatus_idwork" />
+                                    <input style="border:0px" type="submit" value="Đang làm" id="submit_editstatus" name="submit_editstatus" />
+                                </form>
+                            </div>
+                            <div style="" class="css_btndalam">
+                                <form method="post">
+                                    <input type="hidden" value="3" id="editstatus_id" name="editstatus_id" />
+                                    <input type="hidden" value="@congviec.Id" id="editstatus_idwork" name="editstatus_idwork" />
+                                    <input style="border:0px" type="submit" value="Đã làm" id="submit_editstatus" name="submit_editstatus" />
+                                </form>
+                            </div>
+                            <div style="" class="css_btntrehan">
+                                <form method="post">
+                                    <input type="hidden" value="4" id="editstatus_id" name="editstatus_id" />
+                                    <input type="hidden" value="@congviec.Id" id="editstatus_idwork" name="editstatus_idwork" />
+                                    <input style="border:0px" type="submit" value="Trễ hạn" id="submit_editstatus" name="submit_editstatus" />
+                                </form>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top:5px;clear:both">
+                <div style="float:left;width:20%">Ngày bắt đầu :</div>
+                <div style="float:left">@congviec.StartDate &#40; @congviec.StartDate.Value.DayOfWeek &#41;</div>
+            </div>
+            <div style="margin-top:5px;clear:both">
+                <div style="float:left;width:20%">Ngày kết thúc :</div>
+                <div style="float:left">@congviec.EndDate &#40; @congviec.EndDate.Value.DayOfWeek &#41;</div>
+            </div>
+            <div style="margin-top:5px;clear:both">
+                <div style="float:left;width:20%">Ngày tạo :</div>
+                <div style="float:left">@congviec.DateCreated</div>
+            </div>
+
+            <div style="clear:both">Danh sách người làm chung:</div>
+            <div>
+                @foreach (var it in dsNguoiLamChung)
+                {
+                    <div style="float:left; margin-left:10px">
+                        @it.FullName
+                    </div>
+                }
+
+            </div>
+        </div>
+        <div style="display: inline-block; clear: both; margin-left: 200px;">
+
+            <h1>Bình luận:</h1>
+            <div>
+                <form method="post" action="/employee/ThemComment">
+                    <div class="group" style="float:left">
+                        <div style="float:left"><label for="Comment" class="label addWork-label">Bình luận:</label></div>
+                        <div style="float:left"><input id="Add_Comment" type="text" class="input form-control" name="Add_Comment" placeholder="Comment..."></div>
+                    </div>
+                    <div style="float:left;width:200px;">
+                        <div style="style=" width: 50px; display: inline-block; "" class="">
+                            <input type="hidden" value="@Session["IdUser"]" id="id_cmt_employee" name="id_cmt_employee" />
+                            <input type="hidden" value="@congviec.Id" id="add_cmt_idwork" name="add_cmt_idwork" />
+                            <input type="hidden" value="0" id="add_cmt_idcmt" name="add_cmt_idcmt" />
+                            <input type="submit" style="border:0px;background: blue;color: white;" value="Gửi" id="submit_comment" name="submit_comment" class="form-control">
+                        </div>
+                        <div style="display: inline-block;" id="close_edit_comment" class="css_close">
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div style="width:100%;height:200px;overflow:auto">
+                @foreach (var item in dsBinhLuan)
+                {
+                    @*var employee = Model.getEmployeeById(item.IdEmployee + "");*@
+                    <div style="clear:both">
+                        <div style="float:left">
+                            @item.NameEmployee:
+                        </div>
+                        <div style="float:left">
+                            @item.CommentContent
+                        </div>
+                        @if (item.IdEmployee == int.Parse(Session["IdUser"].ToString()))
+                        {
+                            <div style="clear:both; margin-top:5px">
+                                <div style="float:left">
+                                    <form method="post" action="employee/XoaComment">
+                                        <input type="hidden" value="@item.Id" id="delete_cmt_idcmt" name="delete_cmt_idcmt" />
+                                        <input type="submit" style="border:0px" value="Xóa" id="delete_comment" name="delete_comment" style="background:white" />
+                                    </form>
+                                </div>
+                                <div style="float:left; margin-left:10px">
+
+
+                                    <input type="hidden" id="hidden_edit_comment" name="hidden_edit_comment" value="@item.CommentContent" />
+                                    <button id="edit_comment" name="edit_comment" value="@item.Id" onclick="btncomment('@item.Id', '@item.CommentContent')">Sửa </button>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+
+
+</body>
+</html>

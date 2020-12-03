@@ -36,7 +36,7 @@ function btncomment(id_comment,comment) {
     document.getElementById("add_cmt_idcmt").value = id_comment;
     document.getElementById("Add_Comment").value = comment;
     document.getElementById("Add_Comment").focus();
-    document.getElementById("close_edit_comment").innerHTML = '<button id="btn_close_edit_comment" onclick="huy_edit_comment()" value="0"> Hủy</button>';
+    document.getElementById("close_edit_comment").innerHTML = '<button class="form-control" style="background: beige;" id="btn_close_edit_comment" onclick="huy_edit_comment()" value="0"> Hủy</button>';
 }
 function huy_edit_comment() {
     document.getElementById("add_cmt_idcmt").value = "0";
@@ -46,8 +46,9 @@ function huy_edit_comment() {
 function thaydoingay() {
     var datecreated = document.getElementById("Ed_Editdatecrated").value;
     document.getElementById("Edit_DateCreatedWorkList").value = datecreated;
+    
 }
-$(document).ready(
+/*$(document).ready(
     function () {
         $("#datepicker").datepicker({
             dateFormat: 'dd/mm/yy',
@@ -56,4 +57,4 @@ $(document).ready(
         });
     }
 );
-
+*/
